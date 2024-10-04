@@ -3,8 +3,8 @@ const express = require("express");
 const errorHandler = require("./errors/errorHandler");
 const methodNotAllowed = require("./errors/methodNotAllowed");
 const notFound = require("./errors/notFound");
-
 const app = express();
+const cors = require("cors")
 
 // Middleware
 app.use(express.json());
