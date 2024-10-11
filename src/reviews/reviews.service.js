@@ -19,6 +19,7 @@ function listMovieCritiques(movie_id) {
     .then((data) => data.map(addCritic));
 }
 
+// 
 function update(review) {
   const { review_id } = review;
   return knex(table).select("*").where({ review_id }).update(review, "*");
@@ -29,7 +30,7 @@ function read(review_id) {
   return knex(table).select("*").where({ review_id }).first();
 }
 
-// List all reviews
+// Get all reviews
 function list() {
   return knex(table).select("*");
 }
