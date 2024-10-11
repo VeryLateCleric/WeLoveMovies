@@ -17,7 +17,10 @@ function listMoviesPlaying() {
 }
 
 function read(movieId) {
-  return knex("movies as m").select("*").where({ movie_id: movieId }).first();
+  return knex("movies as m")
+    .select("*")
+    .where({ movie_id: movieId })
+    .first();
 }
 
 // join tables theaters and movies_theaters
@@ -55,5 +58,5 @@ module.exports = {
   listMoviesPlaying,
   read,
   listTheatersPlayingMovie,
-  listReviewsWithCritics
+  listReviewsWithCritics,
 };

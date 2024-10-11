@@ -8,17 +8,17 @@ router.route("/").get(moviesController.read).all(methodNotAllowed);
 
 router
   .route("/:movieId")
-  // .get()
+  .get(moviesController.read)
   .all(methodNotAllowed);
 
 router
-  .route("/:movieId/reviews")
-  // .get()
+  .route("/:movieId/reviews", moviesController.read, reviewsRouter)
+  .get(moviesController.listMoviesReviews)
   .all(methodNotAllowed);
 
 router
-  .route("/:movieId/theaters")
-  // .get()
+  .route("/:movieId/theaters", moviesController.read, theatersRouter)
+  .get(moviesController.listTheatersPlaying)
   .all(methodNotAllowed);
 
 module.exports = router;
