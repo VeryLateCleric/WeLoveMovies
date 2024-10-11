@@ -1,45 +1,49 @@
 const knex = require("../db/connection");
 const mapProperties = require("../utils/map-properties");
+const table = "reviews";
 
-function listReviews() {
-  return knex("reviews").select("*");
-}
-
-function read(review_id) {
-  return knex("reviews").select("*").where({ review_id }).first();
-}
-
-
-const addCritic = mapProperties({
+const criticConfigure = {
   preferred_name: "critic.preferred_name",
   surname: "critic.surname",
   organization_name: "critic.organization_name",
-});
+};
 
-function update(updatedReview) {
-  const { review_id } = updatedReview;
-  return (
-    knex("reviews as r")
-      .where({ review_id })
-      .update(updatedReview, Object.keys(updatedReview))
-      // queries the database for the updated object because sqlite won't
-      .then(() =>
-        knex("reviews as r")
-          .join("critics as c", "c.critic_id", "r.critic_id")
-          .where({ review_id })
-          .first()
-          .then(addCritic)
-      )
-  );
+const addCritic = mapProperties(criticConfigure)
+
+// List of all critiques from a single movie
+function listMovieCritiques(movie_id) {
+  return knex({ r: table })
+    .select("*")
+    .join("critics as c", "r.critic_id", "c.critic_id")
+    .where ({ movie_id })
+    .then((data) => data.map(addCritic));
 }
 
+// 
+function update(review) {
+  const { review_id } = review;
+  return knex(table).select("*").where({ review_id }).update(review, "*");
+}
+
+// Get review
+function read(review_id) {
+  return knex(table).select("*").where({ review_id }).first();
+}
+
+// Get all reviews
+function list() {
+  return knex(table).select("*");
+}
+
+// Remove specific review
 function destroy(review_id) {
-  return knex("reviews").where({ review_id }).del();
+  return knex(table).where({ reviewId: review_id }).del();
 }
 
 module.exports = {
-  listReviews,
+  list,
   read,
+  listMovieCritiques,
   update,
   delete: destroy,
 };
