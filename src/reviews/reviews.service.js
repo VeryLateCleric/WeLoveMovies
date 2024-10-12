@@ -20,9 +20,20 @@ function listMovieCritiques(movie_id) {
 }
 
 // 
-function update(review) {
-  const { review_id } = review;
-  return knex(table).select("*").where({ review_id }).update(review, "*");
+function update(updatedReview) {
+  const { review_id } = updatedReview;
+  return (
+    knex("reviews as r")
+      .where({ review_id })
+      .update(updatedReview, Object.keys(updatedReview))
+      .then(() =>
+        knex("reviews as r")
+          .join("critics as c", "c.critic_id", "r.critic_id")
+          .where({ review_id })
+          .first()
+          .then(addCritic)
+      )
+  );
 }
 
 // Get review
@@ -37,7 +48,7 @@ function list() {
 
 // Remove specific review
 function destroy(review_id) {
-  return knex(table).where({ reviewId: review_id }).del();
+  return knex(table).where({ review_id }).del();
 }
 
 module.exports = {

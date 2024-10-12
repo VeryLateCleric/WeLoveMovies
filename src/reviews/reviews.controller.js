@@ -17,7 +17,7 @@ async function list(req, res, next) {
   const data = movie_id
     ? await reviewsService.listMovieCritiques(movie_id)
     : await reviewsService.list();
-  res.son({ data });
+  res.json({ data });
 }
 
 async function update(req, res, next) {
