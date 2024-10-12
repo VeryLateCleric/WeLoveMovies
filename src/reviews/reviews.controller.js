@@ -3,12 +3,12 @@ const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
 // Middleware validation to run before each CRUD operation
 async function checkReviewId(req, res, next) {
-  const { reviewId } = req.params;
-  const review = await reviewsService.read(reviewId);
-  // If no review found with ID, throw error, else continue
-  if (!review) return next({ status: 404, message: "Review cannot be found." });
-  res.locals.review = review;
-  return next();
+  const review = await reviewsService.read(req.params.reviewId);
+  if (review) {
+    res.locals.review = review;
+    return next();
+  }
+  return next({ status: 404, message: "Review cannot be found" });
 }
 
 // List all reviews, unless 'movie_id' is supplied, then only specified movie
@@ -17,7 +17,7 @@ async function list(req, res, next) {
   const data = movie_id
     ? await reviewsService.listMovieCritiques(movie_id)
     : await reviewsService.list();
-  res.son({ data });
+  res.json({ data });
 }
 
 async function update(req, res, next) {

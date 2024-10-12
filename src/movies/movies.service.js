@@ -1,19 +1,17 @@
 const knex = require("../db/connection");
 const mapProperties = require("../utils/map-properties");
 
-// Get all movies
+// Get /movies
 function listAllMovies() {
   return knex("movies");
 }
 
-// Get movies where is_showing is true
+// Get /movies?is_showing=true
 function listMoviesPlaying() {
-  return knex(
-    "movies as m"
-      .join("movies_theaters as mt", "m.movie_id", "mt.movie_id")
-      .distinct("m.*")
-      .where({ "mt.is_showing": true })
-  );
+  return knex("movies as m")
+    .join("movies_theaters as mt", "m.movie_id", "mt.movie_id")
+    .distinct("m.*")
+    .where({ "mt.is_showing": true });
 }
 
 function read(movieId) {
@@ -23,7 +21,7 @@ function read(movieId) {
 // join tables theaters and movies_theaters
 function listTheatersPlayingMovie(movieId) {
   return knex("theaters as t")
-    .join("movies_theaters as mt", "t.theaters_id", "mt.theater_id")
+    .join("movies_theaters as mt", "t.theater_id", "mt.theater_id")
     .select("*")
     .where({ "mt.movie_id": movieId });
 }
@@ -55,5 +53,5 @@ module.exports = {
   listMoviesPlaying,
   read,
   listTheatersPlayingMovie,
-  listReviewsWithCritics
+  listReviewsWithCritics,
 };

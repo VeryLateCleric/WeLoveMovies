@@ -20,9 +20,8 @@ app.use("/reviews", reviewsRouter);
 app.use("/theaters", theatersRouter);
 
 // Error Handlers
-app.use(errorHandler)
-app.use(methodNotAllowed)
 app.use(notFound)
+app.use(errorHandler)
 
 
 module.exports = app;

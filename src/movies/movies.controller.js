@@ -25,7 +25,7 @@ async function listMoviesShowing(req, res) {
   const { is_showing } = req.query; //Get query param
   let data;
   if (is_showing === "true") { // Filter only active movies
-    data = await moviesService.listActiveMovies();
+    data = await moviesService.listMoviesPlaying();
   } else { // Show all
     data = await moviesService.listAllMovies();
   }
