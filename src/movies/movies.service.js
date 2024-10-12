@@ -26,7 +26,7 @@ function read(movieId) {
 // join tables theaters and movies_theaters
 function listTheatersPlayingMovie(movieId) {
   return knex("theaters as t")
-    .join("movies_theaters as mt", "t.theaters_id", "mt.theater_id")
+    .join("movies_theaters as mt", "t.theater_id", "mt.theater_id")
     .select("*")
     .where({ "mt.movie_id": movieId });
 }
