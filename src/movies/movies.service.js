@@ -8,19 +8,14 @@ function listAllMovies() {
 
 // Get /movies?is_showing=true
 function listMoviesPlaying() {
-  return knex(
-    "movies as m"
-      .join("movies_theaters as mt", "m.movie_id", "mt.movie_id")
-      .distinct("m.*")
-      .where({ "mt.is_showing": true })
-  );
+  return knex("movies as m")
+    .join("movies_theaters as mt", "m.movie_id", "mt.movie_id")
+    .distinct("m.*")
+    .where({ "mt.is_showing": true });
 }
 
 function read(movieId) {
-  return knex("movies as m")
-    .select("*")
-    .where({ movie_id: movieId })
-    .first();
+  return knex("movies as m").select("*").where({ movie_id: movieId }).first();
 }
 
 // join tables theaters and movies_theaters
