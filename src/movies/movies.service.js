@@ -1,12 +1,12 @@
 const knex = require("../db/connection");
 const mapProperties = require("../utils/map-properties");
 
-// Get all movies
+// Get /movies
 function listAllMovies() {
   return knex("movies");
 }
 
-// Get movies where is_showing is true
+// Get /movies?is_showing=true
 function listMoviesPlaying() {
   return knex(
     "movies as m"

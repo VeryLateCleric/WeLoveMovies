@@ -4,7 +4,7 @@ const reviewsRouter = require("../reviews/reviews.router");
 const theatersRouter = require("../theaters/theaters.router");
 const methodNotAllowed = require("../errors/methodNotAllowed");
 
-router.route("/").get(moviesController.read).all(methodNotAllowed);
+// router.route("/").get(moviesController.read).all(methodNotAllowed);
 
 router
   .route("/:movieId")
@@ -12,12 +12,12 @@ router
   .all(methodNotAllowed);
 
 router
-  .route("/:movieId/reviews", moviesController.read, reviewsRouter)
+  .route("/:movieId/reviews")
   .get(moviesController.listMoviesReviews)
   .all(methodNotAllowed);
 
 router
-  .route("/:movieId/theaters", moviesController.read, theatersRouter)
+  .route("/:movieId/theaters")
   .get(moviesController.listTheatersPlaying)
   .all(methodNotAllowed);
 
